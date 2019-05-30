@@ -1,6 +1,8 @@
 ## Chartroom
 
-Create by react-create-app. React(useContext) + [Ant Design](https://ant.design/) on the front end, with NodeJS + Socket.io web socket library on the back end. 
+> figure out how useContext + useReducer replaces Redux
+
+Create by react-create-app. React + [Ant Design](https://ant.design/) on the front end, with NodeJS + Socket.io web socket library on the back end. 
 
 
 
