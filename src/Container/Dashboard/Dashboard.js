@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { PageHeader, Input, Button } from "antd";
 
-import TopicList from "../TopicList/TopicList"
-import Dialog from "../Dialog/Dialog"
+import TopicList from "./TopicList/TopicList";
+import Dialog from "./Dialog/Dialog";
+
+import { ctx } from "./Store";
 
 const { TextArea } = Input;
 
@@ -20,9 +22,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const Footer = styled.div`
-  height: 69px;
-`;
 
 const SideLeft = styled.div`
   border-right: 1px solid grey;
@@ -35,30 +34,50 @@ const SideRight = styled.div`
   flex-direction: column;
 `;
 const DialogBox = styled.div`
-  flex:1
-`
+  flex: 1;
+`;
 
 const MessageInputBox = styled.div`
   height: 60px;
-`
+`;
 
 function Dashboard() {
+  const { allCharts, sendMessageAction, user } = useContext(ctx);
+  const topics = Object.keys(allCharts);
+  const [activeTopic, changeActiveTopic] = useState(topics[0]);
+  const [textValue, setTextValue] = useState("");
+  console.log(allCharts)
   return (
     <Box>
       <Header>
-        <PageHeader title="Charts" subTitle="Topic" />
+        <PageHeader title="Charts" subTitle={activeTopic} />
       </Header>
       <Content>
         <SideLeft>
-          <TopicList />
+          <TopicList {...{ topics, changeActiveTopic, activeTopic }} />
         </SideLeft>
         <SideRight>
           <DialogBox>
-            <Dialog/>
+            <Dialog list={allCharts[activeTopic]} />
           </DialogBox>
           <MessageInputBox>
-            <TextArea rows={1} />
-            <Button>Send</Button>
+            <TextArea
+              rows={1}
+              value={textValue}
+              onChange={e => setTextValue(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                sendMessageAction({
+                  from: user,
+                  msg: textValue,
+                  topic: activeTopic
+                });
+                setTextValue("");
+              }}
+            >
+              Send
+            </Button>
           </MessageInputBox>
         </SideRight>
       </Content>

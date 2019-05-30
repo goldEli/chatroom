@@ -7,16 +7,21 @@ const MsgItem = styled.div`
   padding: 5px;
 `;
 
+
 function Dialog(props) {
+  const { list } = props;
   return (
     <React.Fragment>
-      {[
-        { from: "user", message: "123" },
-        { from: "susie", message: "123" }
-      ].map((info, i) => (
+      {list.map((item, i) => (
         <MsgItem key={i}>
-          <Avatar style={{ backgroundColor: "#87d068" }}>{info.from}</Avatar>
-          <span>{info.message}</span>
+          <Avatar
+            shape="square"
+            size="large"
+            style={{ backgroundColor: 'Olive', margin: "0 5px" }}
+          >
+            {item.from}
+          </Avatar>
+          <span>{item.msg}</span>
         </MsgItem>
       ))}
     </React.Fragment>
